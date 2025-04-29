@@ -38,7 +38,7 @@ const FormField: React.FC<FormFieldProps> = ({
         required={required}
         placeholder={placeholder}
         className={`
-          w-full px-4 py-3 rounded-xl shadow-sm
+          w-full px-4 py-3 rounded-xl shadow-sm border-2 border-blue-400
           ${error ? 'border-red-500' : 'border-blue-200'}
           focus:ring-2 focus:ring-blue-500 focus:border-blue-500
           transition-all duration-200
