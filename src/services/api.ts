@@ -1,19 +1,15 @@
+const API_URL_BASE = import.meta.env.VITE_API_URL_BASE
+
 interface ContractPayload {
   tax_id: string;
   product: string;
 }
 
-const API_CONFIG = {
-  BASE_URL: 'https://call.siwebonline.com/api/orders',
-  AUTH_TOKEN: '3PW0QYGA5V9ZWR7CNA61MGSGME',
-};
-
 export const createContract = async (payload: ContractPayload): Promise<Response> => {
-  const response = await fetch(`${API_CONFIG.BASE_URL}/create-contract-by-nif/`, {
+  const response = await fetch(`${API_URL_BASE}/create-contract`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'X-AUTH-TOKEN': API_CONFIG.AUTH_TOKEN
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(payload)
   });
