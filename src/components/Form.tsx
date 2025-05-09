@@ -149,6 +149,9 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       <div className="text-center mb-8 animate-fadeIn">
+      <h1 className="text-2xl font-bold mb-2 bg-green-200 p-2 rounded-lg">
+          Solicitud concedida
+        </h1>
         <h1 className="text-4xl font-bold text-gray-800 mb-2">
           Activar bono
         </h1>
@@ -161,7 +164,7 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Seleccione los servicios deseados</h2>
           
           <div className="space-y-3">
-            <label className="flex items-center space-x-3 p-3 rounded-lg bg-green-200">
+            <label className="flex items-center space-x-3 p-3 rounded-lg bg-blue-200">
               <input
                 type="checkbox"
                 checked={incluirOrdenador}
