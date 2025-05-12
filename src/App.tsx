@@ -4,7 +4,6 @@ import Form from './components/Form';
 import Completion from './components/Completion';
 import SponsorsBar from './components/SponsorsBar';
 import Footer from './components/Footer';
-
 function App() {
   const [showCompletion, setShowCompletion] = useState(false);
 
