@@ -18,10 +18,10 @@ const Footer = () => {
               <li><a href="#" className="text-gray-300 hover:text-white">Contacta con nosotros</a></li>
               <li>
                 <a
-                    href={`tel:${isSiwebCanarias ? '828670848' : '886020705' }`}
+                    href={`tel:${isSiwebCanarias ? '828670848' : '911095389' }`}
                     className="text-gray-300 hover:text-white"
                 >
-                  Llámanos al {isSiwebCanarias ? '828 670 848' : '886 02 07 05'}
+                  Llámanos al {isSiwebCanarias ? '828 670 848' : '91 109 53 89'}
                 </a>
               </li>
             </ul>
