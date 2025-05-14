@@ -1,4 +1,4 @@
-const API_URL_BASE = 'https://contratos.kitdigital.siwebcanarias.localhost'
+const API_URL_BASE = 'https://contratos.kitdigital.siwebcanarias.es'
 
 interface ContractPayload {
   tax_id: string;
@@ -7,7 +7,7 @@ interface ContractPayload {
 }
 
 export const createContract = async (payload: ContractPayload): Promise<Response> => {
-  const response = await fetch(`${API_URL_BASE}/create-contract`, {
+  const response = await fetch(`${API_URL_BASE}/api/create-contract`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
