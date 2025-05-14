@@ -3,6 +3,7 @@ const API_URL_BASE = 'https://contratos.kitdigital.siwebcanarias.localhost'
 interface ContractPayload {
   tax_id: string;
   product: string;
+  campaign: string;
 }
 
 export const createContract = async (payload: ContractPayload): Promise<Response> => {

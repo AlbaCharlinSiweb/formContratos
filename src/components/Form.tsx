@@ -81,7 +81,8 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
       try {
         await createContract({
           tax_id: formData.cif.toUpperCase(),
-          product: formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'
+          product: (formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'),
+          campaign: window.location.hostname
         });
         
         setIsSubmitted(true);
