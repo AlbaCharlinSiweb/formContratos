@@ -4,6 +4,8 @@ interface ContractPayload {
   tax_id: string;
   product: string;
   campaign: string;
+  name: string;
+  phone: string;
 }
 
 export const createContract = async (payload: ContractPayload): Promise<Response> => {
