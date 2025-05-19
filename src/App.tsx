@@ -4,8 +4,18 @@ import Form from './components/Form';
 import Completion from './components/Completion';
 import SponsorsBar from './components/SponsorsBar';
 import Footer from './components/Footer';
-
+import { useEffect } from 'react';
 function App() {
+    useEffect(() => {
+        const domain = window.location.hostname;
+        if (domain.includes('siwebcanarias')) {
+            document.title = 'Siweb Canarias - Kit Digital';
+        } else if (domain.includes('siweb')) {
+            document.title = 'Siweb - Kit Digital';
+        } else {
+            document.title = 'Kit Digital';
+        }
+    }, []);
   const [showCompletion, setShowCompletion] = useState(false);
 
   return (

@@ -81,7 +81,10 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
       try {
         await createContract({
           tax_id: formData.cif.toUpperCase(),
-          product: formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'
+          product: (formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'),
+          name: formData.nombre,
+          phone: formData.telefono,
+          campaign: window.location.hostname
         });
 
         await createContact({
