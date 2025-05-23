@@ -15,8 +15,16 @@ interface ContactPayload {
   option: string;
 }
 
+interface SendContactPayload {
+  nombre: string;
+  telefono: string;
+  cif: string;
+  contract: string;
+}
+
 export const createContract = async (payload: ContractPayload): Promise<Response> => {
-  const response = await fetch(`${API_URL_BASE}/api/create-contract`, {
+  console.log('Contract Payload:', payload);
+  const response = await fetch(`${API_URL_BASE}/create-contract`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -47,7 +55,7 @@ export const createContact = async (payload: ContactPayload): Promise<Response> 
   return response;
 };
 
-export const sendContact = async (payload: ContactPayload): Promise<Response> => {
+export const sendContact = async (payload: SendContactPayload): Promise<Response> => {
   const response = await fetch(`${API_URL_BASE}/send-contact`, {
     method: 'POST',
     headers: {

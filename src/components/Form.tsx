@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FormField from './FormField';
-import { createContact, createContract } from '../services/api';
+import { createContact, createContract, sendContact } from '../services/api';
 import { isValidSpanishId } from '../services/validatorCif';
 
 interface FormData {
@@ -85,6 +85,13 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
           name: formData.nombre,
           phone: formData.telefono,
           campaign: window.location.hostname
+        });
+
+        await sendContact({
+          nombre: formData.nombre,
+          telefono: formData.telefono,
+          cif: formData.cif,
+          contract: formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'
         });
 
         await createContact({
