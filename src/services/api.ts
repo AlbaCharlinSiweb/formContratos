@@ -22,6 +22,19 @@ interface SendContactPayload {
   contract: string;
 }
 
+interface CreateAndContractPayload {
+  nombre: string;
+  telefono: string;
+  cif: string;
+  contract: string;
+  address: string;
+  city: string;
+  province: string;
+  zipcode: string;
+  mail: string;
+  campaign_id: string;
+}
+
 export const createContract = async (payload: ContractPayload): Promise<Response> => {
   console.log('Contract Payload:', payload);
   const response = await fetch(`${API_URL_BASE}/create-contract`, {
@@ -70,3 +83,21 @@ export const sendContact = async (payload: SendContactPayload): Promise<Response
 
   return response;
 };
+
+export const createAndContract = async (payload: CreateAndContractPayload): Promise<Response> => {
+  console.log('Create and Contract Payload:', payload);
+  const response = await fetch(`${API_URL_BASE}/create-and-contract`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  return response;
+};
+

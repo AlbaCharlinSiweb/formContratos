@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import FormField from './FormField';
-import { createContact, sendContact } from '../services/api';
+import { createContact, sendContact, createAndContract } from '../services/api';
 import { isValidSpanishId } from '../services/validatorCif';
+import { toast } from 'react-hot-toast';
 
 interface FormData {
   nombre: string;
   cif: string;
   telefono: string;
   producto: string;
+  address: string;
+  city: string;
+  province: string;
+  zipcode: string;
+  mail: string;
 }
 
 interface FormErrors {
@@ -15,6 +21,11 @@ interface FormErrors {
   cif?: string;
   telefono?: string;
   producto?: string;
+  address?: string;
+  city?: string;
+  province?: string;
+  zipcode?: string;
+  mail?: string;
 }
 
 interface FormProps {
@@ -26,6 +37,11 @@ const initialFormData: FormData = {
   cif: '',
   telefono: '',
   producto: 'web_tienda',
+  address: '',
+  city: '',
+  province: '',
+  zipcode: '',
+  mail: ''
 };
 
 const Form: React.FC<FormProps> = ({ onComplete }) => {
@@ -34,6 +50,7 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
   const [incluirOrdenador, setIncluirOrdenador] = useState<boolean>(true);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [showAdditionalFields, setShowAdditionalFields] = useState<boolean>(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -68,6 +85,32 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
     } else if (!/^\d{9}$/.test(formData.telefono)) {
       newErrors.telefono = 'El teléfono debe tener 9 dígitos';
     }
+
+    if (showAdditionalFields) {
+      if (!formData.mail?.trim()) {
+        newErrors.mail = 'El email es obligatorio';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.mail)) {
+        newErrors.mail = 'El email no es válido';
+      }
+
+      if (!formData.address?.trim()) {
+        newErrors.address = 'La dirección es obligatoria';
+      }
+
+      if (!formData.city?.trim()) {
+        newErrors.city = 'La ciudad es obligatoria';
+      }
+
+      if (!formData.province?.trim()) {
+        newErrors.province = 'La provincia es obligatoria';
+      }
+
+      if (!formData.zipcode?.trim()) {
+        newErrors.zipcode = 'El código postal es obligatorio';
+      } else if (!/^\d{5}$/.test(formData.zipcode)) {
+        newErrors.zipcode = 'El código postal debe tener 5 dígitos';
+      }
+    }
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -79,25 +122,44 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
+        if (!showAdditionalFields) {
+          const response = await sendContact({
+            nombre: formData.nombre,
+            telefono: formData.telefono,
+            cif: formData.cif,
+            contract: formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'
+          });
 
-        await sendContact({
-          nombre: formData.nombre,
-          telefono: formData.telefono,
-          cif: formData.cif,
-          contract: formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'
-        });
+          const data = await response.json();
+          console.log('Respuesta de sendContact:', data);
+          
+          if (!data?.data?.id) {
+            setShowAdditionalFields(true);
+            setIsSubmitting(false);
+            return;
+          }
+        } else {
+          const response = await createAndContract({
+            nombre: formData.nombre,
+            telefono: formData.telefono,
+            cif: formData.cif,
+            contract: formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd',
+            address: formData.address,
+            city: formData.city,
+            province: formData.province,
+            zipcode: formData.zipcode,
+            mail: formData.mail,
+            campaign_id: "1"
+          });
 
-        await createContact({
-          name: formData.nombre,
-          cif: formData.cif,
-          phone: parseInt(formData.telefono),
-          option: formData.producto === 'web_tienda' ? 'wp-pc-kd' : 'rrss-pc-kd'
-        });
+          const data = await response.json();
+          console.log('Respuesta de createAndContract:', data);
+        }
         
         setIsSubmitted(true);
       } catch (error) {
         console.error('Error submitting form:', error);
-        alert('Ha ocurrido un error al enviar el formulario. Por favor, inténtelo de nuevo.');
+        toast.error('Ha ocurrido un error al enviar el formulario. Por favor, inténtelo de nuevo.');
       } finally {
         setIsSubmitting(false);
       }
@@ -252,6 +314,68 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
           />
         </div>
       </div>
+      
+      {showAdditionalFields && (
+        <div className="bg-white rounded-xl shadow-sm p-8 mb-8 transform transition-all duration-500 hover:shadow-lg animate-slideUp border border-blue-100">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">Información adicional requerida</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <FormField
+              label="Email"
+              name="mail"
+              type="email"
+              value={formData.mail}
+              onChange={handleInputChange}
+              placeholder="ejemplo@email.com"
+              error={errors.mail}
+              required
+            />
+
+            <FormField
+              label="Dirección"
+              name="address"
+              type="text"
+              value={formData.address}
+              onChange={handleInputChange}
+              placeholder="Calle y número"
+              error={errors.address}
+              required
+            />
+
+            <FormField
+              label="Ciudad"
+              name="city"
+              type="text"
+              value={formData.city}
+              onChange={handleInputChange}
+              placeholder="Ciudad"
+              error={errors.city}
+              required
+            />
+
+            <FormField
+              label="Provincia"
+              name="province"
+              type="text"
+              value={formData.province}
+              onChange={handleInputChange}
+              placeholder="Provincia"
+              error={errors.province}
+              required
+            />
+
+            <FormField
+              label="Código Postal"
+              name="zipcode"
+              type="text"
+              value={formData.zipcode}
+              onChange={handleInputChange}
+              placeholder="Código Postal"
+              error={errors.zipcode}
+              required
+            />
+          </div>
+        </div>
+      )}
       
       {/* Botón enviar */}
       <div className="text-center pt-8 animate-fadeIn delay-300">
