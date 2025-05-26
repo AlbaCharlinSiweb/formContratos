@@ -1,4 +1,4 @@
-const API_URL_BASE = import.meta.env.VITE_API_URL_BASE
+const API_URL_BASE = 'https://contratos.kitdigital.siwebcanarias.es/api'
 
 interface ContractPayload {
   tax_id: string;
