@@ -1,4 +1,4 @@
-const API_URL_BASE = 'api/'
+const API_URL_BASE = '/api'
 
 interface ContractPayload {
   tax_id: string;
