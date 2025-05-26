@@ -134,6 +134,7 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
           console.log('Respuesta de sendContact:', data);
           
           if (!data?.data?.id) {
+            toast.error('Se requieren datos adicionales para completar el proceso');
             setShowAdditionalFields(true);
             setIsSubmitting(false);
             return;
@@ -156,6 +157,7 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
           console.log('Respuesta de createAndContract:', data);
         }
         
+        toast.success('Formulario enviado correctamente');
         setIsSubmitted(true);
       } catch (error) {
         console.error('Error submitting form:', error);
@@ -163,6 +165,8 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
       } finally {
         setIsSubmitting(false);
       }
+    } else {
+      toast.error('Por favor, corrija los errores en el formulario');
     }
   };
 
