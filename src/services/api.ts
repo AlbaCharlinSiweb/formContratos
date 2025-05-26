@@ -1,4 +1,4 @@
-const API_URL_BASE = 'https://contratos.kitdigital.siwebcanarias.es'
+const API_URL_BASE = 'api/'
 
 interface ContractPayload {
   tax_id: string;

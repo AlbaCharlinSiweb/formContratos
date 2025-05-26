@@ -7,4 +7,13 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://contratos.kitdigital.siwebcanarias.es',
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
 });
