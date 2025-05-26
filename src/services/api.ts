@@ -69,7 +69,7 @@ export const createContact = async (payload: ContactPayload): Promise<Response> 
 };
 
 export const sendContact = async (payload: SendContactPayload): Promise<Response> => {
-  const response = await fetch(`${API_URL_BASE}/send-contact`, {
+  const response = await fetch(`${API_URL_BASE}/api/send-contact`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -86,7 +86,7 @@ export const sendContact = async (payload: SendContactPayload): Promise<Response
 
 export const createAndContract = async (payload: CreateAndContractPayload): Promise<Response> => {
   console.log('Create and Contract Payload:', payload);
-  const response = await fetch(`${API_URL_BASE}/create-and-contract`, {
+  const response = await fetch(`${API_URL_BASE}/api/create-and-contract`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
