@@ -150,7 +150,7 @@ const Form: React.FC<FormProps> = ({ onComplete }) => {
             province: formData.province,
             zipcode: formData.zipcode,
             mail: formData.mail,
-            campaign_id: "1"
+            campaign_id: "5"
           });
 
           const data = await response.json();
